@@ -1,0 +1,30 @@
+name: security
+
+on:
+  push:
+    branches: [main, 'release/**']
+  pull_request:
+
+# Read-only. This repository contains no vulnerability and no secret; the scan exists so a release
+# candidate carries a real check run rather than an asserted one.
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: dependency and secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: no runtime dependencies to audit
+        run: |
+          node -e "const p=require('./package.json');
+            if (p.dependencies && Object.keys(p.dependencies).length) { console.error('unexpected dependency'); process.exit(1); }
+            console.log('0 runtime dependencies');"
+      - name: no credential-shaped strings are committed
+        run: |
+          if grep -rInE '(ghp_|github_pat_|-----BEGIN [A-Z ]*PRIVATE KEY-----|AKIA[0-9A-Z]{16})' \
+               --exclude-dir=.git . ; then
+            echo "credential-shaped string found"; exit 1
+          fi
+          echo "clean"

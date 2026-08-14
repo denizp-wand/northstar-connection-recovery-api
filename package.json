@@ -1,0 +1,13 @@
+{
+  "name": "northstar-connection-recovery-api",
+  "version": "42.6.0",
+  "private": true,
+  "description": "Re-accommodation lookup for disrupted connections. Synthetic, for a demonstration.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "license": "UNLICENSED"
+}

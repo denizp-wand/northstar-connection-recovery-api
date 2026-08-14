@@ -1,0 +1,47 @@
+{
+  "service": {
+    "id": "SVC-NAG-0427",
+    "name": "Connection Recovery API",
+    "criticality": "Tier 1",
+    "owner": "Marcus Chen"
+  },
+  "alsoKnownAs": [
+    {
+      "value": "conn-rec-api_427-prod?",
+      "source": "Legacy deployment register",
+      "note": "Kept as written. The register holds this string, trailing question mark and all; the catalogue resolves it to the service id without rewriting what the register says."
+    }
+  ],
+  "observedAt": "2026-09-23T09:12:03.840Z",
+  "downstream": [
+    {
+      "service": "SVC-NAG-0311",
+      "name": "Disruption Desk",
+      "owner": "Hana Yusuf",
+      "consumesContract": "42.6",
+      "migratedTo427": false,
+      "readsField": "observedAt",
+      "impact": "Reads observedAt to decide whether an option list is stale before confirming a seat. Without it, it cannot tell a fresh list from an hour-old one."
+    },
+    {
+      "service": "SVC-NAG-0518",
+      "name": "Mobile Itinerary",
+      "owner": "Hana Yusuf",
+      "consumesContract": "42.6",
+      "migratedTo427": false,
+      "readsField": "observedAt",
+      "impact": "Displays the freshness of an option list to the passenger."
+    },
+    {
+      "service": "SVC-NAG-0902",
+      "name": "Partner Gateway",
+      "owner": "Tom Westbrook",
+      "consumesContract": "42.7",
+      "migratedTo427": true,
+      "readsField": null,
+      "impact": "Already migrated. Does not read the removed field."
+    }
+  ],
+  "consumersTotal": 6,
+  "consumersReadingRemovedField": 2
+}

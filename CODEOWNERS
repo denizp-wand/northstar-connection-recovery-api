@@ -1,0 +1,6 @@
+# The change owner for this service, and the two governance roles a release passes through.
+# Names are synthetic, as is everything else in this repository.
+*                       @northstar-connection-recovery
+/api/                   @northstar-api-governance
+/release/               @northstar-release-authority
+/.github/workflows/     @northstar-platform
