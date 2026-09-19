@@ -1,6 +1,6 @@
 {
   "name": "northstar-connection-recovery-api",
-  "version": "42.6.0",
+  "version": "42.7.0",
   "private": true,
   "description": "Re-accommodation lookup for disrupted connections. Synthetic, for a demonstration.",
   "type": "module",
