@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Connection Recovery API
+  version: 42.7.0
+  x-service-id: SVC-NAG-0427
+  x-criticality: Tier 1
+  description: >-
+    Re-accommodation lookup for passengers whose connection is no longer viable.
+    Consumed by the disruption desk, the mobile app and the partner gateway.
+servers:
+  - url: https://api.northstar.example/connection-recovery/v42
+paths:
+  /itineraries/{pnr}/options:
+    get:
+      operationId: listRecoveryOptions
+      summary: Recovery options for a disrupted itinerary
+      parameters:
+        - name: pnr
+          in: path
+          required: true
+          schema: { type: string, minLength: 6, maxLength: 6 }
+      responses:
+        '200':
+          description: Feasible options, best first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecoveryOptions'
+components:
+  schemas:
+    RecoveryOptions:
+      type: object
+      required:
+        - options
+        # v42.7.0 REMOVED 'observedAt' from the required set.
+        # Consumers that read it to decide whether the list is stale now receive nothing,
+        # and cannot tell a fresh list from an hour-old one.
+      properties:
+        options:
+          type: array
+          items: { $ref: '#/components/schemas/RecoveryOption' }
+    RecoveryOption:
+      type: object
+      required: [optionId, segments, feasible]
+      properties:
+        optionId: { type: string }
+        segments:
+          type: array
+          items: { $ref: '#/components/schemas/Segment' }
+        feasible: { type: boolean }
+    Segment:
+      type: object
+      required: [origin, destination, departsAt]
+      properties:
+        origin: { type: string, minLength: 3, maxLength: 3 }
+        destination: { type: string, minLength: 3, maxLength: 3 }
+        departsAt: { type: string, format: date-time }

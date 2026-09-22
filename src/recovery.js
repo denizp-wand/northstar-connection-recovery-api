@@ -11,7 +11,7 @@ export const STALE_AFTER_SECONDS = 120;
 export function recoveryOptions(options, observedAt) {
   return {
     options: options.filter((o) => o.feasible !== false),
-    observedAt,
+    // v42.7.0: observedAt is no longer returned. The desk computes freshness locally.
   };
 }
 

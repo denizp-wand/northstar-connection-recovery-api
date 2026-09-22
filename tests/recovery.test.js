@@ -2,9 +2,8 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { isStale, recoveryOptions } from '../src/recovery.js';
 
-test('the envelope carries the time availability was read', () => {
-  const at = '2026-09-23T09:00:00.000Z';
-  assert.equal(recoveryOptions([], at).observedAt, at);
+test('the envelope no longer carries a reading time (v42.7.0)', () => {
+  assert.equal('observedAt' in recoveryOptions([], '2026-09-23T09:00:00.000Z'), false);
 });
 
 test('infeasible options are not offered', () => {
